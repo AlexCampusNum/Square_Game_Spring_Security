@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping
     public Map<String, Object> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers().stream()
-                .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail()))
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getEmail()))
                 .collect(Collectors.toList());
 
         return createResponse("users", users);
@@ -30,21 +30,21 @@ public class UserController {
     @GetMapping("/{id}")
     public Map<String, Object> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
         return createSingleResponse("users", userDTO);
     }
 
     @PostMapping
     public Map<String, Object> createUser(@RequestBody Map<String, Object> request) {
-        String name = (String) request.get("name");
+        String name = (String) request.get("username");
         String email = (String) request.get("email");
 
         User user = new User();
-        user.setName(name);
+        user.setUsername(name);
         user.setEmail(email);
 
         User savedUser = userService.saveUser(user);
-        UserDTO userDTO = new UserDTO(savedUser.getId(), savedUser.getName(), savedUser.getEmail());
+        UserDTO userDTO = new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
         return createSingleResponse("users", userDTO);
     }
 
@@ -52,15 +52,15 @@ public class UserController {
     public Map<String, Object> updateUser(@PathVariable Long id, @RequestBody Map<String, Object> request) {
         User user = userService.getUserById(id);
 
-        if (request.containsKey("name")) {
-            user.setName((String) request.get("name"));
+        if (request.containsKey("username")) {
+            user.setUsername((String) request.get("username"));
         }
         if (request.containsKey("email")) {
             user.setEmail((String) request.get("email"));
         }
 
         User updatedUser = userService.saveUser(user);
-        UserDTO userDTO = new UserDTO(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail());
+        UserDTO userDTO = new UserDTO(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getEmail());
         return createSingleResponse("users", userDTO);
     }
 
@@ -79,7 +79,7 @@ public class UserController {
                         "type", type,
                         "id", user.id().toString(),
                         "attributes", Map.of(
-                                "name", user.name(),
+                                "name", user.username(),
                                 "email", user.email()
                         )
                 ))
@@ -94,7 +94,7 @@ public class UserController {
                 "type", type,
                 "id", userDTO.id().toString(),
                 "attributes", Map.of(
-                        "name", userDTO.name(),
+                        "name", userDTO.username(),
                         "email", userDTO.email()
                 )
         ));

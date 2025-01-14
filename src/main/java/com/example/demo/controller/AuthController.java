@@ -32,8 +32,9 @@ public class AuthController {
         return new TokenDto(token, userCredentialsDto.username());
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/api/register")
     public String signup(@RequestBody UserCredentialsDto userCredentialsDto) {
+
         return "success signup";
     }
 }

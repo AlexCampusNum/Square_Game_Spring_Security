@@ -16,14 +16,15 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
-    private String role;
+    private String roles;
 
     @Column(nullable = false)
+    private String password;
 
 }

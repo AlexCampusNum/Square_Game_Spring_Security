@@ -30,7 +30,7 @@ public class GameController {
     }
 
     //Ressortir toutes les parties par une liste de leur ID de GameFactory not ok, a corriger
-    @GetMapping("/AllGames")
+    @GetMapping("/games/AllGames")
     public Stream<Game> allGames() {
         return gameService.getGameIdentifiers();
     }
